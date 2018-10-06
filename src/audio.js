@@ -1,12 +1,11 @@
 import React from 'react';
-import SourceTag from './source.js';
 
 class AudioTag extends React.Component{
 
     render(){ 
 		return (
-			<audio className="clip" id={this.prop.id}>
-				<SourceTag src={this.prop.src} type={this.prop.type}/>
+			<audio ref={this.props.myref} className={this.props.klasa} id={this.props.myid} src={this.props.source}>
+				{this.props.warning}
 			</audio>
 		);  
 	}

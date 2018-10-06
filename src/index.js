@@ -1,7 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './style.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./style.css";
+import Display from "./display.js";
+import AudioTag from "./audio.js";
+import OuterDiv from "./outerDiv.js";
+import Switch1 from "./switch1.js";
+import Switch2 from "./switch2.js";
+import KillSwitch from "./killSwitch.js";
 
 class DrumMachine  extends React.Component {
 	constructor(props) {
@@ -411,23 +417,21 @@ class DrumMachine  extends React.Component {
 	//Sets up volume.
 	handleVolume(e){
 		
-		this.setState({
-			volume: e.target.value/100, //Get value of range bar and divides it by 100 and set state volume with said value. Later is used for volume of playing sounds.
-			sliderVal: e.target.value, //Get value of range bar and set state sliderVal. 
-			prevVolume: e.target.value/100, //Set as previous volume value, in case when you set switch of then on again, then it's needs this previous value for volume.
-		});
-		//this.myVol
-		/*if(this.state.sliderVal<=33){
-			this.Volume.className = "vol1";
-		}
 		
-		if(this.state.sliderVal>33 && this.state.sliderVal<=66){
-			this.Volume.className = "vol2";
-		}
 		
-		if(this.state.sliderVal>66){
-			this.Volume.className = "vol3";
-		}*/
+		if(this.state.mySwitch){
+			this.setState({
+				volume: e.target.value/100, //Get value of range bar and divides it by 100 and set state volume with said value. Later is used for volume of playing sounds.
+				sliderVal: e.target.value, //Get value of range bar and set state sliderVal. 
+				prevVolume: e.target.value/100, //Set as previous volume value, in case when you set switch of then on again, then it's needs this previous value for volume.
+			});
+		}
+		else{
+			this.setState({
+				sliderVal: e.target.value, //Get value of range bar and set state sliderVal. 
+				prevVolume: e.target.value/100, //Set as previous volume value, in case when you set switch of then on again, then it's needs this previous value for volume.
+			});
+		}
 		
 	}
 	
@@ -464,81 +468,33 @@ class DrumMachine  extends React.Component {
 	
 		const displayId = this.state.display ? this.state.display.replace("-"," ") : "No sound";//If state display has 'truthy' value, then take value from said state and at the same time replace al dashes with empty char and set value to this variable. Then use this variable as value for content of an element with id="display".  
 		const switchText = this.state.mySwitch ? "On" : "Off";//Checks state mySwitch, if it's 'truthy', then set text in on/off switch certain way, if it's not then other way. 
-	
+		
+		//Changes class for volume text depending of value of range input.
 		const volumer = this.state.sliderVal<=33 ? "vol1" :(this.state.sliderVal>33 && this.state.sliderVal<=66 ? "vol2": "vol3");
-	
+		
+		//An array of all refs for outer divs.
+		const divRefs = [this.H1, this.H2, this.H3, this.H41, this.H6, this.Dsc_Oh, this.Kick_n_Hat, this.RP4_KICK_1, this.Cev_H2];
+		//An array of all refs of audio elements.
+		const audioRefs = [this.Q, this.W, this.E, this.A, this.S, this.D, this.Z, this.X, this.C];
+		//An array of all Id's of audio elements.
+		const audioIds = ["Q", "W", "E", "A", "S", "D", "Z", "X", "C"];
+		
+		//Mapping of all audio's encompassed by div elements.
+		const myKeys = fancyId.map((item,i) => <OuterDiv key={i.toString()} myid={fancyId[i]} myref={divRefs[i]} klasa="drum-pad metal linear" onClick={this.handleClick} letter={audioIds[i]} audio={<AudioTag myid={audioIds[i]} myref={audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
+		
 		return(
 			
 			<div id="drum-machine" className="grid-container cent" ref={this.myRef}>
-				<div id="display" className="item1">{displayId}</div>
 				
-				<div id={fancyId[0]} ref={this.H1} className="drum-pad metal linear" onClick={this.handleClick}>
-					Q<audio id="Q" ref={this.Q} className="clip" src={track[0]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
+				<Display id="display" klasa="item1" displayText={displayId}/>
 				
-				<div id={fancyId[1]} ref={this.H2} className="drum-pad metal linear" onClick={this.handleClick}>
-					W<audio id="W" ref={this.W} className="clip" src={track[1]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
+				{myKeys}
 				
-				<div id={fancyId[2]} ref={this.H3} className="drum-pad metal linear" onClick={this.handleClick}>
-					E<audio id="E" ref={this.E} className="clip" src={track[2]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
+				<Switch1 klasa="item3" mySwitchid="switch" myTypeBox="checkbox" myChange={this.fancyToggle} myWrapperKlasa="wrap" myLabhtmlFor="switch" myLabKlasa="lbx" mySpanKlasa="rib"/>
 				
-				<div id={fancyId[3]} ref={this.H41} className="drum-pad metal linear" onClick={this.handleClick}>
-					A<audio id="A" ref={this.A} className="clip" src={track[3]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
+				<Switch2 klasa="item2" mySwitchid="myRange" myType="range" myMin="1" myMax="100" myRangeVal={this.state.sliderVal} rangeKlasa="slider" myRangeRef={this.myRange} myChange={this.handleVolume} volumeTextKlasa={volumer} myVolRef={this.myVol} volumeText={"Volume "+this.state.sliderVal}/>
 				
-				<div id={fancyId[4]} ref={this.H6} className="drum-pad metal linear" onClick={this.handleClick}>
-					S<audio id="S" ref={this.S} className="clip" src={track[4]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
-				
-				<div id={fancyId[5]} ref={this.Dsc_Oh} className="drum-pad metal linear" onClick={this.handleClick}>
-					D<audio id="D" ref={this.D} className="clip" src={track[5]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
-				
-				<div id={fancyId[6]} ref={this.Kick_n_Hat} className="drum-pad metal linear" onClick={this.handleClick}>
-					Z<audio id="Z" ref={this.Z} className="clip" src={track[6]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
-				
-				<div id={fancyId[7]} ref={this.RP4_KICK_1} className="drum-pad metal linear" onClick={this.handleClick}>
-					X<audio id="X" ref={this.X} className="clip" src={track[7]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
-				
-				<div id={fancyId[8]} ref={this.Cev_H2} className="drum-pad metal linear" onClick={this.handleClick}>
-					C<audio id="C" ref={this.C} className="clip" src={track[8]}>
-						Your browser doesn't support this audio format.
-					</audio>
-				</div>
-				
-				<div className="item3">
-					<input id="switch" type="checkbox" onChange={this.fancyToggle}/>
-					<div className="wrap">
-					<label htmlFor="switch" className="lbx"><span className="rib"></span><span className="rib"></span><span className="rib"></span></label>
-					</div>
-				</div>
-				
-				<div className="item2">
-					<input type="range" min="1" max="100" value={this.state.sliderVal} className="slider" id="myRange" ref={this.myRange} onChange={this.handleVolume}/>
-					<div className={volumer} ref={this.myVol}>Volume {this.state.sliderVal}</div>
-				</div>
-					
-				<div className="mt1 metal linear oval" ref={this.mySwitch} onClick={this.onOff}>{switchText}</div>
+				<KillSwitch klasa="mt1 metal linear oval" killRef={this.mySwitch} killClick={this.onOff} killSwitchText={switchText} />
 				
 			</div>
 

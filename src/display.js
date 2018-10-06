@@ -4,8 +4,8 @@ class Display extends React.Component{
 
     render(){ 
 		return (
-			<div id="display">
-				{this.props.btnText}
+			<div id={this.props.id} className={this.props.klasa}>
+				{this.props.displayText}
 			</div>
 		);  
 	}
