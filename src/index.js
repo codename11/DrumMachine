@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./style.css";
+import "./style.scss";
 import Display from "./display.js";
 import AudioTag from "./audio.js";
 import OuterDiv from "./outerDiv.js";
