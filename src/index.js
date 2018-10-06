@@ -482,6 +482,8 @@ class DrumMachine  extends React.Component {
 		//Mapping of all audio's encompassed by div elements.
 		const myKeys = fancyId.map((item,i) => <OuterDiv key={i.toString()} myid={fancyId[i]} myref={divRefs[i]} klasa="drum-pad metal linear" onClick={this.handleClick} letter={audioIds[i]} audio={<AudioTag myid={audioIds[i]} myref={audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
 		
+		const killSwitchStyle = (switchText==="On") ? {color:"green"} : {color:"red"};
+		
 		return(
 			
 			<div id="drum-machine" className="grid-container cent" ref={this.myRef}>
@@ -494,7 +496,7 @@ class DrumMachine  extends React.Component {
 				
 				<Switch2 klasa="item2" mySwitchid="myRange" myType="range" myMin="1" myMax="100" myRangeVal={this.state.sliderVal} rangeKlasa="slider" myRangeRef={this.myRange} myChange={this.handleVolume} volumeTextKlasa={volumer} myVolRef={this.myVol} volumeText={"Volume "+this.state.sliderVal}/>
 				
-				<KillSwitch klasa="mt1 metal linear oval" killRef={this.mySwitch} killClick={this.onOff} killSwitchText={switchText} />
+				<KillSwitch myStyle={killSwitchStyle} klasa="mt1 metal linear oval" killRef={this.mySwitch} killClick={this.onOff} killSwitchText={switchText} />
 				
 			</div>
 
