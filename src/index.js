@@ -142,7 +142,7 @@ class DrumMachine  extends React.Component {
 			sounds[index].parentNode.classList.add("btnActive");
 			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnActive"); }, 150);
 		}
-		else{
+		else{//Set default styling for bottom border when pressed/clicked.
 			sounds[index].parentNode.style.borderTop="2px solid gray";
 			sounds[index].parentNode.style.borderLeft="2px solid gray";
 			sounds[index].parentNode.style.borderBottom="2px solid silver";
