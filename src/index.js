@@ -45,7 +45,7 @@ class DrumMachine  extends React.Component {
 	
 	componentDidMount() {
 		//Set event listeners for keypress
-		window.addEventListener("keydown", this.keyPress);
+		window.addEventListener("keyup", this.keyPress);
 		
 		//Gather all audio objects through their respective refs.
 		sounds = [ReactDOM.findDOMNode(this.audioRefs[0].current), ReactDOM.findDOMNode(this.audioRefs[1].current), ReactDOM.findDOMNode(this.audioRefs[2].current), ReactDOM.findDOMNode(this.audioRefs[3].current), ReactDOM.findDOMNode(this.audioRefs[4].current), ReactDOM.findDOMNode(this.audioRefs[5].current), ReactDOM.findDOMNode(this.audioRefs[6].current), ReactDOM.findDOMNode(this.audioRefs[7].current), ReactDOM.findDOMNode(this.audioRefs[8].current)
@@ -55,7 +55,7 @@ class DrumMachine  extends React.Component {
 
 	componentWillUnmount() {
 		//Unmount all ref's.
-		window.removeEventListener("keydown", this.keyPress);
+		window.removeEventListener("keyup", this.keyPress);
 	
 		//Unmount all ref's.
 		sounds = [ReactDOM.findDOMNode(this.Q.current), ReactDOM.findDOMNode(this.W.current), ReactDOM.findDOMNode(this.E.current), ReactDOM.findDOMNode(this.A.current), ReactDOM.findDOMNode(this.S.current), ReactDOM.findDOMNode(this.D.current), ReactDOM.findDOMNode(this.Z.current), ReactDOM.findDOMNode(this.X.current), ReactDOM.findDOMNode(this.C.current)
