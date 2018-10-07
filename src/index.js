@@ -98,8 +98,9 @@ class DrumMachine  extends React.Component {
 		if(this.state.mySwitch){//Check if it's DrumMachine is turned off. If it's not i.e 'on' then pressed button lights up. If it is, then it will not light up.
 			sounds[index].parentNode.classList.add("btnActive");
 			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnActive"); }, 150);
-		}
 
+		}
+		
 	}
 
 	handleClick(e){
