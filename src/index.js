@@ -100,6 +100,19 @@ class DrumMachine  extends React.Component {
 			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnActive"); }, 150);
 
 		}
+		else{
+			sounds[index].parentNode.style.borderTop="2px solid gray";
+			sounds[index].parentNode.style.borderLeft="2px solid gray";
+			sounds[index].parentNode.style.borderBottom="2px solid silver";
+			sounds[index].parentNode.style.borderRight="2px solid silver";
+			
+			setTimeout(function(){ 
+				sounds[index].parentNode.style.borderTop="2px solid silver";
+				sounds[index].parentNode.style.borderLeft="2px solid silver";
+				sounds[index].parentNode.style.borderBottom="2px solid gray";
+				sounds[index].parentNode.style.borderRight="2px solid gray";
+			}, 150);
+		}
 		
 	}
 
@@ -128,6 +141,19 @@ class DrumMachine  extends React.Component {
 		if(this.state.mySwitch){//Check if it's DrumMachine is turned off. If it's not i.e 'on' then clicked button lights up. If it is, then it will not light up.
 			sounds[index].parentNode.classList.add("btnActive");
 			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnActive"); }, 150);
+		}
+		else{
+			sounds[index].parentNode.style.borderTop="2px solid gray";
+			sounds[index].parentNode.style.borderLeft="2px solid gray";
+			sounds[index].parentNode.style.borderBottom="2px solid silver";
+			sounds[index].parentNode.style.borderRight="2px solid silver";
+			
+			setTimeout(function(){ 
+				sounds[index].parentNode.style.borderTop="2px solid silver";
+				sounds[index].parentNode.style.borderLeft="2px solid silver";
+				sounds[index].parentNode.style.borderBottom="2px solid gray";
+				sounds[index].parentNode.style.borderRight="2px solid gray";
+			}, 150);
 		}
 		
 	}
@@ -195,7 +221,7 @@ class DrumMachine  extends React.Component {
 		const myKeys = this.pads.reff.map((item,i) => <OuterDiv key={i.toString()} myid={fancyId[i]} klasa="drum-pad metal linear" onClick={this.handleClick} letter={this.pads.reff[i]} audio={<AudioTag myid={this.pads.reff[i]} myref={this.audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
 		
 		const killSwitchStyle = (switchText==="On") ? {color:"green"} : {color:"red"};//Sets killSwitch font color.
-		const killClass = this.state.mySwitch ? "mt1 metal linear oval btnOn" : "mt1 metal linear oval m2";//Sets killSwitch background color.
+		const killClass = this.state.mySwitch ? "mt1 metal linear oval btnOn" : "mt1 metal linear oval btnOff";//Sets killSwitch background color.
 
 		return(
 			
