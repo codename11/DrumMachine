@@ -67,6 +67,7 @@ class DrumMachine  extends React.Component {
 		
 			//Assign par1 as index to know which element(by ref) should 'engage'.
 			sounds[par1].volume = par2;//After element is 'engaged', set it's volume.
+			sounds[par1].currentTime = 0;//Added this so you may for example, play sound 5 times subsequently.
 			sounds[par1].play();//After element is 'engaged', set it's to play.
 			
 		return arguments;
