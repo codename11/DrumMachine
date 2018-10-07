@@ -435,27 +435,9 @@ label {
   border-radius: 50%;
 }
 
-.no{
-	align-items: flex-start;
-    text-align: center;
-    cursor: default;
-    color: buttontext;
-    background-color: buttonface;
-    box-sizing: border-box;
-    padding: 2px 6px 3px;
-    border-width: 2px;
-    border-style: outset;
-    border-color: buttonface;
-    border-image: initial;
-	text-rendering: auto;
-    color: initial;
-    letter-spacing: normal;
-    word-spacing: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    display: inline-block;
-    text-align: start;
-    margin: 0em;
-    font: 400 13.3333px Arial;
+.btnsOff{
+	border-top: 2px solid gray;
+	border-left: 2px solid gray;
+	border-bottom: 2px solid silver;
+	border-right: 2px solid silver;
 }

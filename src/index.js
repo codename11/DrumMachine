@@ -101,17 +101,8 @@ class DrumMachine  extends React.Component {
 
 		}
 		else{//Set default styling for bottom border when pressed/clicked.
-			sounds[index].parentNode.style.borderTop="2px solid gray";
-			sounds[index].parentNode.style.borderLeft="2px solid gray";
-			sounds[index].parentNode.style.borderBottom="2px solid silver";
-			sounds[index].parentNode.style.borderRight="2px solid silver";
-			
-			setTimeout(function(){ 
-				sounds[index].parentNode.style.borderTop="2px solid silver";
-				sounds[index].parentNode.style.borderLeft="2px solid silver";
-				sounds[index].parentNode.style.borderBottom="2px solid gray";
-				sounds[index].parentNode.style.borderRight="2px solid gray";
-			}, 150);
+			sounds[index].parentNode.classList.add("btnsOff");
+			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
 		}
 		
 	}
@@ -143,17 +134,8 @@ class DrumMachine  extends React.Component {
 			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnActive"); }, 150);
 		}
 		else{//Set default styling for bottom border when pressed/clicked.
-			sounds[index].parentNode.style.borderTop="2px solid gray";
-			sounds[index].parentNode.style.borderLeft="2px solid gray";
-			sounds[index].parentNode.style.borderBottom="2px solid silver";
-			sounds[index].parentNode.style.borderRight="2px solid silver";
-			
-			setTimeout(function(){ 
-				sounds[index].parentNode.style.borderTop="2px solid silver";
-				sounds[index].parentNode.style.borderLeft="2px solid silver";
-				sounds[index].parentNode.style.borderBottom="2px solid gray";
-				sounds[index].parentNode.style.borderRight="2px solid gray";
-			}, 150);
+			sounds[index].parentNode.classList.add("btnsOff");
+			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
 		}
 		
 	}
