@@ -39,7 +39,14 @@ class DrumMachine  extends React.Component {
 		};
 		
 		//An array of all refs of audio elements.
-		this.audioRefs = [this.Q = React.createRef(), this.W = React.createRef(), this.E = React.createRef(), this.A = React.createRef(), this.S = React.createRef(), this.D = React.createRef(), this.Z = React.createRef(), this.X = React.createRef(), this.C = React.createRef()];
+		this.audioRefs = [];
+		
+		for(let elem in this.pads.reff){
+			
+			this[elem] = React.createRef();
+			this.audioRefs.push(this[elem]);
+			
+		}
 		
 	}
 	
@@ -47,9 +54,12 @@ class DrumMachine  extends React.Component {
 		//Set event listeners for keypress
 		window.addEventListener("keyup", this.keyPress);
 		
-		//Gather all audio objects through their respective refs.
-		sounds = [ReactDOM.findDOMNode(this.audioRefs[0].current), ReactDOM.findDOMNode(this.audioRefs[1].current), ReactDOM.findDOMNode(this.audioRefs[2].current), ReactDOM.findDOMNode(this.audioRefs[3].current), ReactDOM.findDOMNode(this.audioRefs[4].current), ReactDOM.findDOMNode(this.audioRefs[5].current), ReactDOM.findDOMNode(this.audioRefs[6].current), ReactDOM.findDOMNode(this.audioRefs[7].current), ReactDOM.findDOMNode(this.audioRefs[8].current)
-		];
+		//Gather all audio objects through their respective refs.		
+		for(let elem in this.audioRefs){
+			
+			sounds.push(this[elem].current);
+			
+		}
 		
 	}
 
@@ -58,8 +68,7 @@ class DrumMachine  extends React.Component {
 		window.removeEventListener("keyup", this.keyPress);
 	
 		//Unmount all ref's.
-		sounds = [ReactDOM.findDOMNode(this.Q.current), ReactDOM.findDOMNode(this.W.current), ReactDOM.findDOMNode(this.E.current), ReactDOM.findDOMNode(this.A.current), ReactDOM.findDOMNode(this.S.current), ReactDOM.findDOMNode(this.D.current), ReactDOM.findDOMNode(this.Z.current), ReactDOM.findDOMNode(this.X.current), ReactDOM.findDOMNode(this.C.current)
-		];
+		sounds = [this.Q.current, this.W.current, this.E.current, this.A.current, this.S.current, this.D.current, this.Z.current, this.X.current, this.C.current];
 
 	}
 	
@@ -201,7 +210,7 @@ class DrumMachine  extends React.Component {
 		const volumer = this.state.sliderVal<=33 ? "vol1" :(this.state.sliderVal>33 && this.state.sliderVal<=66 ? "vol2": "vol3");
 		
 		//Mapping of all audio's encompassed by div elements.
-		const myKeys = this.pads.reff.map((item,i) => <OuterDiv key={i.toString()} myid={fancyId[i]} klasa="drum-pad metal linear" onClick={this.handleClick} letter={this.pads.reff[i]} audio={<AudioTag myid={this.pads.reff[i]} myref={this.audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
+		const myKeys = this.pads.reff.map((item,i) => <OuterDiv key={("outerDiv"+i)} myid={fancyId[i]} klasa="drum-pad metal linear" onClick={this.handleClick} letter={this.pads.reff[i]} audio={<AudioTag key={("audio"+i)} myid={this.pads.reff[i]} myref={this.audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
 		
 		const killSwitchStyle = (switchText==="On") ? {color:"green"} : {color:"red"};//Sets killSwitch font color.
 		const killClass = this.state.mySwitch ? "mt1 metal linear oval btnOn" : "mt1 metal linear oval btnOff";//Sets killSwitch background color.
