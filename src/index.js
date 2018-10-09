@@ -9,8 +9,6 @@ import Switch1 from "./switch1.js";
 import Switch2 from "./switch2.js";
 import KillSwitch from "./killSwitch.js";
 
-let sounds = [];
-
 class DrumMachine  extends React.Component {
 	constructor(props) {
 		super(props);
@@ -40,7 +38,7 @@ class DrumMachine  extends React.Component {
 		
 		//An array of all refs of audio elements.
 		this.audioRefs = [];
-		
+		this.sounds = [];
 		for(let elem in this.pads.reff){
 			
 			this[elem] = React.createRef();
@@ -57,8 +55,8 @@ class DrumMachine  extends React.Component {
 		//Gather all audio objects through their respective refs.		
 		for(let elem in this.audioRefs){
 			
-			sounds.push(this[elem].current);
-			
+			this.sounds.push(this[elem].current);
+			//this.sounds.push(ReactDOM.findDOMNode(this[elem].current));
 		}
 		
 	}
@@ -68,16 +66,16 @@ class DrumMachine  extends React.Component {
 		window.removeEventListener("keyup", this.keyPress);
 	
 		//Unmount all ref's.
-		sounds = [this.Q.current, this.W.current, this.E.current, this.A.current, this.S.current, this.D.current, this.Z.current, this.X.current, this.C.current];
+		this.sounds = [this.Q.current, this.W.current, this.E.current, this.A.current, this.S.current, this.D.current, this.Z.current, this.X.current, this.C.current];
 
 	}
 	
 	playAudio(par1, par2, par3){//Par1 is index of an given element be that be audio or outer div. Par2 is this.state.volume and Par3 is element itself.
 		
 			//Assign par1 as index to know which element(by ref) should 'engage'.
-			sounds[par1].volume = par2;//After element is 'engaged', set it's volume.
-			sounds[par1].currentTime = 0;//Added this so you may for example, play sound 5 times subsequently.
-			sounds[par1].play();//After element is 'engaged', set it's to play.
+			this.sounds[par1].volume = par2;//After element is 'engaged', set it's volume.
+			this.sounds[par1].currentTime = 0;//Added this so you may for example, play sound 5 times subsequently.
+			this.sounds[par1].play();//After element is 'engaged', set it's to play.
 			
 		return arguments;
 	}
@@ -105,14 +103,9 @@ class DrumMachine  extends React.Component {
 			display: play[2],//Second argument of playAudio is 'message' needed to show on display component.
 		});
 		
-		if(this.state.mySwitch){//Check if it's DrumMachine is turned off. If it's not i.e 'on' then pressed button lights up. If it is, then it will not light up.
-			sounds[index].parentNode.classList.add("btnActive");
-			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnActive"); }, 150);
-
-		}
-		else{//Set default styling for bottom border when pressed/clicked.
-			sounds[index].parentNode.classList.add("btnsOff");
-			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
+		if(!this.state.mySwitch){//Set default styling for bottom border when pressed/clicked.
+			this.sounds[index].parentNode.classList.add("btnsOff");
+			setTimeout(() => { this.sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
 		}
 		
 	}
@@ -138,14 +131,10 @@ class DrumMachine  extends React.Component {
 		this.setState({
 			display: play[2],
 		});
-		
-		if(this.state.mySwitch){//Check if it's DrumMachine is turned off. If it's not i.e 'on' then clicked button lights up. If it is, then it will not light up.
-			sounds[index].parentNode.classList.add("btnActive");
-			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnActive"); }, 150);
-		}
-		else{//Set default styling for bottom border when pressed/clicked.
-			sounds[index].parentNode.classList.add("btnsOff");
-			setTimeout(function(){ sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
+
+		if(!this.state.mySwitch){//Set default styling for bottom border when pressed/clicked.
+			this.sounds[index].parentNode.classList.add("btnsOff");
+			setTimeout(() => { this.sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
 		}
 		
 	}
@@ -155,7 +144,7 @@ class DrumMachine  extends React.Component {
 		
 		if(this.state.mySwitch){
 			this.setState({
-				volume: e.target.value/100, //Get value of range bar and divides it by 100 and set state volume with said value. Later is used for volume of playing sounds.
+				volume: e.target.value/100, //Get value of range bar and divides it by 100 and set state volume with said value. Later is used for volume of playing this.sounds.
 				sliderVal: e.target.value, //Get value of range bar and set state sliderVal. 
 				prevVolume: e.target.value/100, //Set as previous volume value, in case when you set switch of then on again, then it's needs this previous value for volume.
 			});
@@ -210,7 +199,7 @@ class DrumMachine  extends React.Component {
 		const volumer = this.state.sliderVal<=33 ? "vol1" :(this.state.sliderVal>33 && this.state.sliderVal<=66 ? "vol2": "vol3");
 		
 		//Mapping of all audio's encompassed by div elements.
-		const myKeys = this.pads.reff.map((item,i) => <OuterDiv key={("outerDiv"+i)} myid={fancyId[i]} klasa="drum-pad metal linear" onClick={this.handleClick} letter={this.pads.reff[i]} audio={<AudioTag key={("audio"+i)} myid={this.pads.reff[i]} myref={this.audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
+		const myKeys = this.pads.reff.map((item,i) => <OuterDiv mySwitch={this.state.mySwitch} key={("outerDiv"+i)} myid={fancyId[i]} onClick={this.handleClick} letter={this.pads.reff[i]} audio={<AudioTag key={("audio"+i)} myid={this.pads.reff[i]} myref={this.audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
 		
 		const killSwitchStyle = (switchText==="On") ? {color:"green"} : {color:"red"};//Sets killSwitch font color.
 		const killClass = this.state.mySwitch ? "mt1 metal linear oval btnOn" : "mt1 metal linear oval btnOff";//Sets killSwitch background color.
