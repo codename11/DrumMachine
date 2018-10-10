@@ -61,7 +61,7 @@ class OuterDiv extends React.Component{
 	presser(event){
 		
 		//Check if it's DrumMachine is turned off. If it's not i.e 'on' then clicked button lights up. If it is, then it will not light up.
-		//Call function 'setStaterActive' 
+		//If this.props.myid line up with this.props.pads.id1 or this.props.pads.id2 and this.props.pads.reff line up with event.key uppercased, call 'setStaterActive'.
 
 		for(let i=0;i<this.props.pads.reff.length;i++){
 			
