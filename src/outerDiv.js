@@ -7,10 +7,10 @@ class OuterDiv extends React.Component{
 		super(props);
 		this.clicker = this.clicker.bind(this);
 		this.presser = this.presser.bind(this);
-		this.setStater = this.setStater.bind(this);
+		this.setStaterActive = this.setStaterActive.bind(this);
 		
 		this.state = {
-			klasa: "drum-pad metal linear"
+			klasa: "drum-pad metal linear",
 		};
 	}
 	
@@ -26,82 +26,58 @@ class OuterDiv extends React.Component{
 		
 	}
 
-	setStater(){
-		this.setState({
+	setStaterActive(){//Function that set state who is used as class variable to outer div.
+		
+		//Sets different class when switch is on and different when switch is off.
+		if(this.props.mySwitch){//If switch is on, set this classes.
+			this.setState({
 				klasa: "drum-pad metal linear btnActive",
 			});
-	
-		setTimeout(() => { 
+		
+			setTimeout(() => { 
 
+				this.setState({
+					klasa: "drum-pad metal linear",
+				});
+
+			}, 150);
+		}
+		else{//If switch is off, set this classes. Difference between previous and this one is that is setting different class when switch is off.
 			this.setState({
-				klasa: "drum-pad metal linear",
+				klasa: "drum-pad metal linear btnsOff",
 			});
+		
+			setTimeout(() => { 
 
-		}, 150);
+				this.setState({
+					klasa: "drum-pad metal linear",
+				});
+
+			}, 150);
+		}
+		
 	}
 	
 	presser(event){
-		let str = this.props.mySwitch+event.key+this.props.myid;
 		
 		//Check if it's DrumMachine is turned off. If it's not i.e 'on' then clicked button lights up. If it is, then it will not light up.
-		switch (str) {
-			case "trueqHeater-1":
-				
-				this.setStater();
-				break;
-				
-			case "truewHeater-2":
-				
-				this.setStater();
-				break;	
+		//Call function 'setStaterActive' 
+
+		for(let i=0;i<this.props.pads.reff.length;i++){
 			
-			case "trueeHeater-3":
+			if((this.props.pads.id1[i]===this.props.myid || this.props.pads.id2[i]===this.props.myid) && this.props.pads.reff[i]===event.key.toUpperCase()){
 				
-				this.setStater();
-				break;
+				this.setStaterActive();
+			}
 			
-			case "trueaHeater-4_1":
-				
-				this.setStater();
-				break;
-				
-			case "truesHeater-6":
-				
-				this.setStater();
-				break;
-				
-			case "truedDsc_Oh":
-				
-				this.setStater();
-				break;
-				
-			case "truezKick_n_Hat":
-				
-				this.setStater();
-				break;
-				
-			case "truexRP4_KICK_1":
-				
-				this.setStater();
-				break;
-				
-			case "truecCev_H2":
-				
-				this.setStater();
-				break;
-				
-			default:
-				break;
 		}
-		
+
 	}
 	
 	clicker(){
 		
-		if(this.props.mySwitch){//Check if it's DrumMachine is turned off. If it's not i.e 'on' then clicked button lights up. If it is, then it will not light up.	
-			
-			this.setStater();
-		}
+		//Check if it's DrumMachine is turned off. If it's not i.e 'on' then clicked button lights up. If it is, then it will not light up.	
+		this.setStaterActive();
 		
 	}
 	

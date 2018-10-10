@@ -19,6 +19,11 @@ class DrumMachine  extends React.Component {
 			mySwitch: true,
 			prevVolume:  0.5,
 			fancy: false,
+			pads: {
+				reff: ["Q", "W", "E", "A", "S", "D", "Z", "X", "C"],
+				id1: ["Heater-1", "Heater-2", "Heater-3", "Heater-4_1", "Heater-6", "Dsc_Oh", "Kick_n_Hat", "RP4_KICK_1", "Cev_H2"],
+				id2: ["Chord_1", "Chord_2", "Chord_3", "Give_us_a_light", "Dry_Ohh", "Bld_H1", "punchy_kick_1", "side_stick_1", "Brk_Snr"]
+			},
 		};
 		this.handleClick = this.handleClick.bind(this);//Function that when you click button with mouse, plays sound.
 		this.keyPress = this.keyPress.bind(this);//Function when you click on key,  plays sound.
@@ -30,16 +35,11 @@ class DrumMachine  extends React.Component {
 		//Only changing things is in an array this.pads.id1, id2 and reff.
 		this.url = "https://s3.amazonaws.com/freecodecamp/drums/";
 		this.mp3 = ".mp3";
-		this.pads = {
-			reff: ["Q", "W", "E", "A", "S", "D", "Z", "X", "C"],
-			id1: ["Heater-1", "Heater-2", "Heater-3", "Heater-4_1", "Heater-6", "Dsc_Oh", "Kick_n_Hat", "RP4_KICK_1", "Cev_H2"],
-			id2: ["Chord_1", "Chord_2", "Chord_3", "Give_us_a_light", "Dry_Ohh", "Bld_H1", "punchy_kick_1", "side_stick_1", "Brk_Snr"]
-		};
 		
 		//An array of all refs of audio elements.
 		this.audioRefs = [];
 		this.sounds = [];
-		for(let elem in this.pads.reff){
+		for(let elem in this.state.pads.reff){
 			
 			this[elem] = React.createRef();
 			this.audioRefs.push(this[elem]);
@@ -87,13 +87,13 @@ class DrumMachine  extends React.Component {
 		
 		//Depending if toggle track button is on or off, it assigns appropriate array of id's.
 		if(this.state.fancy===false){
-			clikedId = [...this.pads.id1]; 
+			clikedId = [...this.state.pads.id1]; 
 		}
 		else if(this.state.fancy===true){
-				clikedId = [...this.pads.id2];
+				clikedId = [...this.state.pads.id2];
 		}
 		
-		let index = this.pads.reff.indexOf(myKey.toUpperCase());//Gets an index by comparing myKey with content of an array with refs.
+		let index = this.state.pads.reff.indexOf(myKey.toUpperCase());//Gets an index by comparing myKey with content of an array with refs.
 		
 		//Calls function playAudio and gives it parameters. First is index of pressed key from array. Second is current volume, third is clikced element itself.
 		let play = [...this.playAudio(index,this.state.volume,clikedId[index])];
@@ -103,11 +103,6 @@ class DrumMachine  extends React.Component {
 			display: play[2],//Second argument of playAudio is 'message' needed to show on display component.
 		});
 		
-		if(!this.state.mySwitch){//Set default styling for bottom border when pressed/clicked.
-			this.sounds[index].parentNode.classList.add("btnsOff");
-			setTimeout(() => { this.sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
-		}
-		
 	}
 
 	handleClick(e){
@@ -116,10 +111,10 @@ class DrumMachine  extends React.Component {
 		
 		//Depending if toggle track button is on or off, it assigns appropriate array of id's.
 		if(this.state.fancy===false){
-			clikedId = [...this.pads.id1];
+			clikedId = [...this.state.pads.id1];
 		}
 		else if(this.state.fancy===true){
-				clikedId = [...this.pads.id2];
+				clikedId = [...this.state.pads.id2];
 		}
 		
 		let index = clikedId.indexOf(e.target.id);//Gets an index by comparing myKey with content of an array with refs.
@@ -132,11 +127,6 @@ class DrumMachine  extends React.Component {
 			display: play[2],
 		});
 
-		if(!this.state.mySwitch){//Set default styling for bottom border when pressed/clicked.
-			this.sounds[index].parentNode.classList.add("btnsOff");
-			setTimeout(() => { this.sounds[index].parentNode.classList.remove("btnsOff"); }, 150);
-		}
-		
 	}
 
 	//Sets up volume.
@@ -188,9 +178,9 @@ class DrumMachine  extends React.Component {
 	}
 	
 	render(){
-
-		const fancyId = this.state.fancy ? this.pads.id2 : this.pads.id1;//If checkbox i.e toggle button for alternating between audio sets, is true, then map object containing alternative id's, if it's not, then from other object containing id's. 
-		const track = this.state.fancy ? this.pads.id2.map((item, i) => this.url+item+this.mp3) : this.pads.id1.map((item, i) => this.url+item+this.mp3);//If checkbox i.e toggle button for alternating between audio sets, is true, then map object containing alternative tracks, if it's not, then from other object containing tracks. 
+		
+		const fancyId = this.state.fancy ? this.state.pads.id2 : this.state.pads.id1;//If checkbox i.e toggle button for alternating between audio sets, is true, then map object containing alternative id's, if it's not, then from other object containing id's. 
+		const track = this.state.fancy ? this.state.pads.id2.map((item, i) => this.url+item+this.mp3) : this.state.pads.id1.map((item, i) => this.url+item+this.mp3);//If checkbox i.e toggle button for alternating between audio sets, is true, then map object containing alternative tracks, if it's not, then from other object containing tracks. 
 	
 		const displayId = this.state.display && this.state.mySwitch ? this.state.display.replace(/-|_/g,' ')  : "No sound";//If state display has 'truthy' value, then take value from said state and at the same time replace al dashes with empty char and set value to this variable. Then use this variable as value for content of an element with id="display".  
 		const switchText = this.state.mySwitch ? "On" : "Off";//Checks state mySwitch, if it's 'truthy', then set text in on/off switch certain way, if it's not then other way. 
@@ -199,11 +189,11 @@ class DrumMachine  extends React.Component {
 		const volumer = this.state.sliderVal<=33 ? "vol1" :(this.state.sliderVal>33 && this.state.sliderVal<=66 ? "vol2": "vol3");
 		
 		//Mapping of all audio's encompassed by div elements.
-		const myKeys = this.pads.reff.map((item,i) => <OuterDiv mySwitch={this.state.mySwitch} key={("outerDiv"+i)} myid={fancyId[i]} onClick={this.handleClick} letter={this.pads.reff[i]} audio={<AudioTag key={("audio"+i)} myid={this.pads.reff[i]} myref={this.audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
+		const myKeys = this.state.pads.reff.map((item,i) => <OuterDiv pads={this.state.pads} mySwitch={this.state.mySwitch} key={("outerDiv"+i)} myid={fancyId[i]} onClick={this.handleClick} letter={this.state.pads.reff[i]} audio={<AudioTag key={("audio"+i)} myid={this.state.pads.reff[i]} myref={this.audioRefs[i]} klasa="clip" source={track[i]} warning="Your browser doesn't support this audio format."/>} /> );
 		
 		const killSwitchStyle = (switchText==="On") ? {color:"green"} : {color:"red"};//Sets killSwitch font color.
 		const killClass = this.state.mySwitch ? "mt1 metal linear oval btnOn" : "mt1 metal linear oval btnOff";//Sets killSwitch background color.
-
+		
 		return(
 			
 			<div id="drum-machine" className="grid-container cent">
