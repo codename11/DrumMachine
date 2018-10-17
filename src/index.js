@@ -24,6 +24,7 @@ class DrumMachine  extends React.Component {
 				id1: ["Heater-1", "Heater-2", "Heater-3", "Heater-4_1", "Heater-6", "Dsc_Oh", "Kick_n_Hat", "RP4_KICK_1", "Cev_H2"],
 				id2: ["Chord_1", "Chord_2", "Chord_3", "Give_us_a_light", "Dry_Ohh", "Bld_H1", "punchy_kick_1", "side_stick_1", "Brk_Snr"]
 			},
+
 		};
 		this.handleClick = this.handleClick.bind(this);//Function that when you click button with mouse, plays sound.
 		this.keyPress = this.keyPress.bind(this);//Function when you click on key,  plays sound.
@@ -71,6 +72,7 @@ class DrumMachine  extends React.Component {
 	}
 	
 	playAudio(par1, par2, par3){//Par1 is index of an given element be that be audio or outer div. Par2 is this.state.volume and Par3 is element itself.
+	
 		if(this.sounds[par1]){
 			//Assign par1 as index to know which element(by ref) should 'engage'.
 			this.sounds[par1].volume = par2;//After element is 'engaged', set it's volume.
@@ -131,7 +133,7 @@ class DrumMachine  extends React.Component {
 		this.setState({
 			display: play[2],
 		});
-
+		
 	}
 
 	//Sets up volume.
@@ -212,7 +214,7 @@ class DrumMachine  extends React.Component {
 				<Switch2 klasa="item2" mySwitchid="myRange" myType="range" myMin="1" myMax="100" myRangeVal={this.state.sliderVal} rangeKlasa="slider" myChange={this.handleVolume} volumeTextKlasa={volumer} volumeText={"Volume "+this.state.sliderVal}/>
 				
 				<KillSwitch myStyle={killSwitchStyle} klasa={killClass} killClick={this.onOff} killSwitchText={switchText} />
-				
+
 			</div>
 
 		);
