@@ -24,6 +24,12 @@ class DrumMachine  extends React.Component {
 				id1: ["Heater-1", "Heater-2", "Heater-3", "Heater-4_1", "Heater-6", "Dsc_Oh", "Kick_n_Hat", "RP4_KICK_1", "Cev_H2"],
 				id2: ["Chord_1", "Chord_2", "Chord_3", "Give_us_a_light", "Dry_Ohh", "Bld_H1", "punchy_kick_1", "side_stick_1", "Brk_Snr"]
 			},
+			replay: {
+				index: [],
+				volume: [],
+				id: [],
+				currTime: []
+			}
 
 		};
 		this.handleClick = this.handleClick.bind(this);//Function that when you click button with mouse, plays sound.
@@ -76,6 +82,16 @@ class DrumMachine  extends React.Component {
 		if(this.sounds[par1]){
 			//Assign par1 as index to know which element(by ref) should 'engage'.
 			this.sounds[par1].volume = par2;//After element is 'engaged', set it's volume.
+
+			this.setState({
+				replay: {
+					index: [...this.state.replay.index, par1],
+					volume: [...this.state.replay.volume, par2],
+					id: [...this.state.replay.id, par3],
+					currTime: [...this.state.replay.currTime, this.sounds[par1].currentTime],
+				}
+			});
+			
 			this.sounds[par1].currentTime = 0;//Added this so you may for example, play sound 5 times subsequently.
 			this.sounds[par1].play();//After element is 'engaged', set it's to play.
 			
@@ -185,7 +201,7 @@ class DrumMachine  extends React.Component {
 	}
 	
 	render(){
-		
+		console.log(this.state.replay);
 		const fancyId = this.state.fancy ? this.state.pads.id2 : this.state.pads.id1;//If checkbox i.e toggle button for alternating between audio sets, is true, then map object containing alternative id's, if it's not, then from other object containing id's. 
 		const track = this.state.fancy ? this.state.pads.id2.map((item, i) => this.url+item+this.mp3) : this.state.pads.id1.map((item, i) => this.url+item+this.mp3);//If checkbox i.e toggle button for alternating between audio sets, is true, then map object containing alternative tracks, if it's not, then from other object containing tracks. 
 	
